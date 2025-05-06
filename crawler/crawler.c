@@ -104,14 +104,13 @@ void crawl(char* seedURL, char* pageDirectory, const int maxDepth)
   bag_insert(webBag, seedPage); // first insert 
   webpage_t* tempPage;
   while ((tempPage = bag_extract(webBag)) != NULL){ // checks if bag extract worked
-    //int depth = webpage_getDepth(tempPage); - components of progress message if needed 
-    //char* url = webpage_getURL(tempPage);
+    int depth = webpage_getDepth(tempPage);  
+    char* url = webpage_getURL(tempPage);
 
-    // progress message to uncomment if needed 
-    //printf("%d     Fetched: %s\n", depth, url);
+    printf("%d     Fetched: %s\n", depth, url);
     if(webpage_fetch(tempPage)){ // fetches page
       pagedir_save(tempPage, pageDirectory, docID++); // saves the page information in directory
-      //printf("%d    Scanning: %s\n", depth, url); - progress message if need
+      printf("%d    Scanning: %s\n", depth, url); 
 
       if (webpage_getDepth(tempPage) < maxDepth){ // checks if max depth reached
         pageScan(tempPage, webBag, hashSeen); // scans the page for URL, adds if not explored 
@@ -140,11 +139,11 @@ void pageScan(webpage_t* page, bag_t* pagesToCrawl, hashtable_t* pagesSeen)
   char* result;
   while ((result = webpage_getNextURL(page, &pos)) != NULL){ // gets the next url in the page
     char* normalized = normalizeURL(result); // gets the normalized URL
-    //int depth = webpage_getDepth(page); -- in case you want to have the progress prints
-    //printf("%d       Found: %s\n", depth, result);
+    int depth = webpage_getDepth(page); 
+    printf("%d       Found: %s\n", depth, result);
     if (normalized != NULL && isInternalURL(normalized)){ // checks normalization and if URL internal
       if (hashtable_insert(pagesSeen, normalized, "")){ // inserts into hashtable
-        //printf("%d       Added: %s\n", depth, normalized);
+        printf("%d       Added: %s\n", depth, normalized);
         webpage_t* tempWeb = webpage_new(normalized, webpage_getDepth(page) + 1, NULL); // create new webpage
         if (tempWeb == NULL){
           fprintf(stderr, "Webpage new failed");
@@ -154,11 +153,11 @@ void pageScan(webpage_t* page, bag_t* pagesToCrawl, hashtable_t* pagesSeen)
         }
         bag_insert(pagesToCrawl, tempWeb); // add to bag of pages to crawl later for call function
       } else {
-        //printf("%d     IgnDupl: %s\n", depth, normalized);
+        printf("%d     IgnDupl: %s\n", depth, normalized);
         free(normalized); // frees the memory in case the insert fails 
       }
     } else {
-      //printf("%d    IgnExtrn: %s\n", depth, result);
+      /rintf("%d    IgnExtrn: %s\n", depth, result);
       if (normalized != NULL){
         free(normalized);
       }
