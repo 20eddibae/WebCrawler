@@ -15,7 +15,8 @@
 
 ## Known Bugs/Limitations (allowed by the instructions)
 - edge cases like non-HTTP URLs that the program passes over
-- Memory allocation fails, prints error and exists non-zero value 
+- Memory allocation fails, prints error and exists non-zero value
+- for test file specifically, the non internal but normalized URL prints the error message for un normalized
 
 ## Files
 - 'crawler.c' - crawl through web 
