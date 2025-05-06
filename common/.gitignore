@@ -1,0 +1,7 @@
+# Compiled object and archive
+*.o
+common.a
+
+# Editor temp files
+*~
+*.swp
