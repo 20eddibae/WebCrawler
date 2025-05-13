@@ -1,0 +1,24 @@
+# Compiled binaries
+crawler
+indexer
+indextest
+
+# Static archives (if built locally)
+*.a
+
+# Output directories and files
+output/
+*.txt
+
+# Core dumps
+core
+core.*
+
+# Logs or debugging output
+*.out
+*.log
+
+# Editor/OS specific files
+*~
+*.swp
+

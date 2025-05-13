@@ -2,13 +2,6 @@
 crawler
 *.o
 
-# Test output and temp files
-testing.out
-
-# Ignore output directories if created here (unlikely)
-output/
-data/
-
 # Editor/IDE noise
 *~
 *.swp
