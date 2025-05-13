@@ -157,7 +157,7 @@ void pageScan(webpage_t* page, bag_t* pagesToCrawl, hashtable_t* pagesSeen)
         free(normalized); // frees the memory in case the insert fails 
       }
     } else {
-      /rintf("%d    IgnExtrn: %s\n", depth, result);
+      printf("%d    IgnExtrn: %s\n", depth, result);
       if (normalized != NULL){
         free(normalized);
       }
