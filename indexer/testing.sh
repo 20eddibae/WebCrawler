@@ -48,7 +48,7 @@ rm readonly.txt
 echo 
 
 INDEXDIR0=../output/pages-letters-depth-0
-OUTFILE0=output-inde0x.txt
+OUTFILE0=output-index0.txt
 COPYFILE0=output-index-copy0.txt
 
 echo "Depth 0: Run indexer on valid directory '$INDEXDIR0'"
@@ -60,11 +60,11 @@ head "$OUTFILE0"
 echo
 
 echo "Depth 0: Run indextest to load and save the index"
-./indextest "$OUTFILE0" "$COPYFILE"0
+./indextest "$OUTFILE0" "$COPYFILE0"
 echo
 
 echo "Depth 0: Compare output and copy using indexcmp"
-~/cs50-dev/shared/tse/indexcmp "$OUTFILE" "$COPYFILE"
+~/cs50-dev/shared/tse/indexcmp "$OUTFILE0" "$COPYFILE0"
 INDEXDIR=../output/pages-letters-depth-1
 OUTFILE=output-index.txt
 COPYFILE=output-index-copy.txt

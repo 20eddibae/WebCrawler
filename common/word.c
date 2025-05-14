@@ -1,10 +1,18 @@
+/* =========================================================================
+ * word.c - normalizes word by making it all lower case 
+ *
+ * Eddie Bae
+ * CS 50 Spring 2025 
+ * ========================================================================= 
+ */
+
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "word.h"
 
-
+// normalizes the word by making it all lower case 
 char*
 normalize_word(const char* word)
 {
@@ -25,8 +33,8 @@ normalize_word(const char* word)
       free(finalWord);
       return NULL;
     }
-    finalWord[i] = tolower(word[i]);
+    finalWord[i] = tolower(word[i]); // makes letters lower case 
   }
-  finalWord[word_size] = '\0';
+  finalWord[word_size] = '\0'; // adds end character 
   return finalWord;
 }
