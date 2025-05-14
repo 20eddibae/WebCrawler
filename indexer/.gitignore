@@ -22,3 +22,9 @@ core.*
 *~
 *.swp
 
+indexer
+indextest
+*.o
+*.txt
+*.out
+core
