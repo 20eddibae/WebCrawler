@@ -31,8 +31,6 @@ tse 1 1
 Depth 0: Run indextest to load and save the index
 
 Depth 0: Compare output and copy using indexcmp
-index: cannot open index file ''
-/thayerfs/home/f0079dw/cs50-dev/shared/tse/indexcmp: cannot load index from ''
 Depth 1: Run indexer on valid directory '../output/pages-letters-depth-1'
 
 Depth 1: Show first 10 lines of generated index
@@ -50,34 +48,34 @@ Depth 1: Run indextest to load and save the index
 Depth 1: Compare output and copy using indexcmp
 
 Valgrind: indexer 
-==410650== Memcheck, a memory error detector
-==410650== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==410650== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==410650== Command: ./indexer ../output/pages-letters-depth-1 output1.txt
-==410650== 
-==410650== 
-==410650== HEAP SUMMARY:
-==410650==     in use at exit: 0 bytes in 0 blocks
-==410650==   total heap usage: 684 allocs, 684 frees, 47,815 bytes allocated
-==410650== 
-==410650== All heap blocks were freed -- no leaks are possible
-==410650== 
-==410650== For lists of detected and suppressed errors, rerun with: -s
-==410650== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==547126== Memcheck, a memory error detector
+==547126== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==547126== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==547126== Command: ./indexer ../output/pages-letters-depth-1 output1.txt
+==547126== 
+==547126== 
+==547126== HEAP SUMMARY:
+==547126==     in use at exit: 0 bytes in 0 blocks
+==547126==   total heap usage: 684 allocs, 684 frees, 47,815 bytes allocated
+==547126== 
+==547126== All heap blocks were freed -- no leaks are possible
+==547126== 
+==547126== For lists of detected and suppressed errors, rerun with: -s
+==547126== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 
 Valgrind: indextest
-==410651== Memcheck, a memory error detector
-==410651== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==410651== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==410651== Command: ./indextest output1.txt output2.txt
-==410651== 
-==410651== 
-==410651== HEAP SUMMARY:
-==410651==     in use at exit: 0 bytes in 0 blocks
-==410651==   total heap usage: 241 allocs, 241 frees, 21,016 bytes allocated
-==410651== 
-==410651== All heap blocks were freed -- no leaks are possible
-==410651== 
-==410651== For lists of detected and suppressed errors, rerun with: -s
-==410651== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==547128== Memcheck, a memory error detector
+==547128== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==547128== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==547128== Command: ./indextest output1.txt output2.txt
+==547128== 
+==547128== 
+==547128== HEAP SUMMARY:
+==547128==     in use at exit: 0 bytes in 0 blocks
+==547128==   total heap usage: 241 allocs, 241 frees, 21,016 bytes allocated
+==547128== 
+==547128== All heap blocks were freed -- no leaks are possible
+==547128== 
+==547128== For lists of detected and suppressed errors, rerun with: -s
+==547128== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 
