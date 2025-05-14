@@ -34,6 +34,9 @@ Icon?
 .Spotlight-V*
 .Trashes
 
+output*.txt
+*.log
+
 ###########################################################################
 # custom additions below here; see also .gitignore files in subdirectories.
 
