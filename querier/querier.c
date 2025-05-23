@@ -212,13 +212,18 @@ counters_t* copy_counters(counters_t* src)
 void 
 intersect_helper(void* arg, const int docID, const int count1) 
 {
-  counters_t* other = arg;
-  int count2 = counters_get(other, docID); // gets the count value of the count at a certain docID
+  counters_t* result = arg;
+  int count2 = counters_get(result, docID);
+
   if (count2 > 0) {
-    int min = count1 < count2 ? count1 : count2;
-    counters_set(other, docID, min);
+    if (count1 < count2) {
+      counters_set(result, docID, count1);
+    } else {
+      counters_set(result, docID, count2);
+    }
   } else {
-    counters_set(other, docID, 0); // Prevent false matches
+    // docID not in both; remove from result
+    counters_set(result, docID, 0);
   }
 }
 
@@ -232,7 +237,22 @@ intersect_helper(void* arg, const int docID, const int count1)
 static void 
 intersect(counters_t* base, counters_t* next) 
 {
-  counters_iterate(base, next, intersect_helper);
+  for (int docID = 1; docID < 10000; docID++) {
+    int count1 = counters_get(base, docID);
+    int count2 = counters_get(next, docID);
+
+    if (count1 > 0 && count2 > 0) {
+      // keep the smaller of the two counts
+      if (count1 < count2) {
+        counters_set(base, docID, count1);
+      } else {
+        counters_set(base, docID, count2);
+      }
+    } else {
+      // remove docID if it's not in both
+      counters_set(base, docID, 0);
+    }
+  }
 }
 
 // helper function to help get the union of two counters when provided the counter, docID for it, and the count value
@@ -332,60 +352,73 @@ index_find(index_t* index, const char* word)
  */
 static counters_t* evaluate(index_t* index, char** words, int count)
 {
-  counters_t* result = NULL;             // final result (OR of all AND groups)
-  counters_t* andGroup = NULL;           // current AND group
+  counters_t* result = NULL;         // Final result of OR'ing valid AND groups
+  counters_t* andGroup = NULL;       // Current AND group
+  bool andGroupValid = true;         // Track validity of current AND group
 
   for (int i = 0; i < count; i++) {
     char* word = words[i];
 
     if (strcmp(word, "or") == 0) {
-      // OR: merge the current AND group into the result
-      if (andGroup != NULL) {
+      // End of AND group - merge if valid
+      if (andGroupValid && andGroup != NULL) {
         if (result == NULL) {
           result = andGroup;
         } else {
           unite(result, andGroup);
           counters_delete(andGroup);
         }
-        andGroup = NULL;
+      } else if (andGroup != NULL) {
+        counters_delete(andGroup);
       }
+
+      andGroup = NULL;
+      andGroupValid = true;
     }
     else if (strcmp(word, "and") == 0) {
-      // AND is implicit, do nothing
-      continue;
+      continue; // "and" is implicit
     }
     else {
+      // Normal word
       counters_t* wordCounts = index_find(index, word);
+
       if (wordCounts == NULL) {
-        // Treat as empty set: intersect with empty -> nullifies the group
-        wordCounts = counters_new();  // empty counter
+        // Word missing: invalidate current AND group
+        andGroupValid = false;
+        continue;
+      }
+
+      if (!andGroupValid) {
+        continue; // Do not build andGroup if already invalid
       }
 
       if (andGroup == NULL) {
-        andGroup = copy_counters(wordCounts);
+        andGroup = copy_counters(wordCounts);  // start new AND group
       } else {
-        intersect(andGroup, wordCounts);  // AND logic
+        intersect(andGroup, wordCounts);       // narrow down with intersection
       }
     }
   }
 
-  // After loop, merge final AND group if any
-  if (andGroup != NULL) {
+  // Handle last AND group after loop ends
+  if (andGroupValid && andGroup != NULL) {
     if (result == NULL) {
       result = andGroup;
     } else {
       unite(result, andGroup);
       counters_delete(andGroup);
     }
+  } else if (andGroup != NULL) {
+    counters_delete(andGroup); // discard invalid
   }
 
-  // If everything was empty or invalid
+  // Ensure we return a non-NULL counter
   if (result == NULL) {
     result = counters_new();
   }
 
   return result;
-}
+} 
 /**************** print_sorted_results() ****************/
 /*
  * Method to print the valid documents that satisfy the query in a ranked way
