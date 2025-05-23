@@ -85,6 +85,40 @@ echo "Depth 1: Compare output and copy using indexcmp"
 ~/cs50-dev/shared/tse/indexcmp "$OUTFILE" "$COPYFILE"
 echo
 
+
+
+echo "Depth 0: Compare output and copy using indexcmp"
+~/cs50-dev/shared/tse/indexcmp "$OUTFILE0" "$COPYFILE0"
+
+touch output-index-toscrape0.txt
+
+echo "Depth 1: Run toscrape on valid directory '$INDEXDIR'"
+./indexer ../output/pages-toscrape-depth-0 output-index-toscrape0.txt
+echo
+
+
+touch output-index-toscrape1.txt
+
+echo "Depth 0: Run wikipedia on valid directory '$INDEXDIR'"
+./indexer ../output/pages-toscrape-depth-1 output-index-toscrape1.txt
+
+
+touch output-index-wikipedia0.txt
+
+echo "Depth 0: Run wikipedia on valid directory '$INDEXDIR'"
+./indexer ../output/pages-wikipedia-depth-0 output-index-wikipedia0.txt
+
+touch output-index-wikipedia1.txt
+
+echo "Depth 1: Run wikipedia on valid directory '$INDEXDIR'"
+./indexer ../output/pages-wikipedia-depth-1 output-index-wikipedia1.txt
+
+echo "Depth 1: Show first 10 lines of generated index"
+head "$OUTFILE"
+echo
+
+
+
 echo "Valgrind: indexer "
 valgrind ./indexer ../output/pages-letters-depth-1 output1.txt
 echo

@@ -13,7 +13,7 @@ LIBS = $(COMMON_DIR)/common.a $(LIBCS50_DIR)/libcs50-given.a
 TARGETS = indexer indextest
 
 # Default target
-all: $(TARGETS)
+all: $(TARGETS) $(LIBS)
 
 # Build indexer
 indexer: indexer.o $(LIBS)
