@@ -156,39 +156,39 @@ Query: cs and course
 No documents match.
 
 Valgrind test on querier letters 0 
-==2988016== Memcheck, a memory error detector
-==2988016== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2988016== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2988016== Command: ./querier /thayerfs/home/f0079dw/cs50-dev/shared/tse/output/letters-0 /thayerfs/home/f0079dw/cs50-dev/shared/tse/output/letters-0.index
-==2988016== 
+==3000607== Memcheck, a memory error detector
+==3000607== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3000607== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3000607== Command: ./querier /thayerfs/home/f0079dw/cs50-dev/shared/tse/output/letters-0 /thayerfs/home/f0079dw/cs50-dev/shared/tse/output/letters-0.index
+==3000607== 
 Error: and cannot be first
 Error: or cannot be first
 Query: home
 Matches 1 documents (ranked):
 score	2 doc	1: http://cs50tse.cs.dartmouth.edu/tse/letters/
-==2988016== 
-==2988016== HEAP SUMMARY:
-==2988016==     in use at exit: 0 bytes in 0 blocks
-==2988016==   total heap usage: 1,052 allocs, 1,052 frees, 48,949 bytes allocated
-==2988016== 
-==2988016== All heap blocks were freed -- no leaks are possible
-==2988016== 
-==2988016== For lists of detected and suppressed errors, rerun with: -s
-==2988016== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3000607== 
+==3000607== HEAP SUMMARY:
+==3000607==     in use at exit: 0 bytes in 0 blocks
+==3000607==   total heap usage: 1,052 allocs, 1,052 frees, 48,949 bytes allocated
+==3000607== 
+==3000607== All heap blocks were freed -- no leaks are possible
+==3000607== 
+==3000607== For lists of detected and suppressed errors, rerun with: -s
+==3000607== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 
 Valgrind test on querier letters 1 
-==2988017== Memcheck, a memory error detector
-==2988017== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==2988017== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
-==2988017== Command: ./querier ../shared/tse/output/letters-0 ../indexer/output-index-letters1.txt
-==2988017== 
+==3000608== Memcheck, a memory error detector
+==3000608== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==3000608== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==3000608== Command: ./querier ../shared/tse/output/letters-0 ../indexer/output-index-letters1.txt
+==3000608== 
 Error: ../shared/tse/output/letters-0 is not a valid .crawler directory 
-==2988017== 
-==2988017== HEAP SUMMARY:
-==2988017==     in use at exit: 0 bytes in 0 blocks
-==2988017==   total heap usage: 1 allocs, 1 frees, 472 bytes allocated
-==2988017== 
-==2988017== All heap blocks were freed -- no leaks are possible
-==2988017== 
-==2988017== For lists of detected and suppressed errors, rerun with: -s
-==2988017== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==3000608== 
+==3000608== HEAP SUMMARY:
+==3000608==     in use at exit: 0 bytes in 0 blocks
+==3000608==   total heap usage: 1 allocs, 1 frees, 472 bytes allocated
+==3000608== 
+==3000608== All heap blocks were freed -- no leaks are possible
+==3000608== 
+==3000608== For lists of detected and suppressed errors, rerun with: -s
+==3000608== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -214,8 +214,11 @@ intersect_helper(void* arg, const int docID, const int count1)
 {
   counters_t* other = arg;
   int count2 = counters_get(other, docID); // gets the count value of the count at a certain docID
-  if (count2 == 0 || count2 < count1) {
-    counters_set(other, docID, count2); // sets the counters to the lower value or 0 if there is no intersection
+  if (count2 > 0) {
+    int min = count1 < count2 ? count1 : count2;
+    counters_set(other, docID, min);
+  } else {
+    counters_set(other, docID, 0); // Prevent false matches
   }
 }
 
@@ -327,45 +330,62 @@ index_find(index_t* index, const char* word)
  * Caller provides:
  *  2 counters in which to compare the two
  */
-static counters_t* 
-evaluate(index_t* index, char** words, int count) 
+static counters_t* evaluate(index_t* index, char** words, int count)
 {
-  counters_t* result = NULL;
-  counters_t* current = NULL;
+  counters_t* result = NULL;             // final result (OR of all AND groups)
+  counters_t* andGroup = NULL;           // current AND group
 
-  for (int i = 0; i < count; i++){
+  for (int i = 0; i < count; i++) {
     char* word = words[i];
-    if (strcmp(word, "or") == 0){
-      if (result == NULL){
-        result = current;
-      } else if (current != NULL){
-        unite(result, current); // gets the union if there is an or
-        counters_delete(current);
+
+    if (strcmp(word, "or") == 0) {
+      // OR: merge the current AND group into the result
+      if (andGroup != NULL) {
+        if (result == NULL) {
+          result = andGroup;
+        } else {
+          unite(result, andGroup);
+          counters_delete(andGroup);
+        }
+        andGroup = NULL;
       }
-      current = NULL;
-    } else if (strcmp(word, "and") == 0){
-      continue; // ignore if there is an and 
-    } else {
+    }
+    else if (strcmp(word, "and") == 0) {
+      // AND is implicit, do nothing
+      continue;
+    }
+    else {
       counters_t* wordCounts = index_find(index, word);
-      if (wordCounts == NULL){
-        wordCounts = counters_new(); 
-      }  
-      if (current == NULL){
-        current = copy_counters(wordCounts); // create new if no current
+      if (wordCounts == NULL) {
+        // Treat as empty set: intersect with empty -> nullifies the group
+        wordCounts = counters_new();  // empty counter
+      }
+
+      if (andGroup == NULL) {
+        andGroup = copy_counters(wordCounts);
       } else {
-        intersect(current, wordCounts); // get the intersection for and 
+        intersect(andGroup, wordCounts);  // AND logic
       }
     }
   }
 
-  if (result == NULL){
-    return current;
+  // After loop, merge final AND group if any
+  if (andGroup != NULL) {
+    if (result == NULL) {
+      result = andGroup;
+    } else {
+      unite(result, andGroup);
+      counters_delete(andGroup);
+    }
   }
-  unite(result, current); // unite the result with the current one
-  counters_delete(current);
+
+  // If everything was empty or invalid
+  if (result == NULL) {
+    result = counters_new();
+  }
+
   return result;
 }
-
 /**************** print_sorted_results() ****************/
 /*
  * Method to print the valid documents that satisfy the query in a ranked way
